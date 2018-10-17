@@ -4,7 +4,7 @@ This is a plugin for the awesome [Sanity CMS](http://sanity.io)
 
 Which adds support for datatables.
 
-![Datatable](https://user-images.githubusercontent.com/4348783/47113644-df97f400-d259-11e8-982c-b0a8b158be77.png)
+![datatable](https://user-images.githubusercontent.com/4348783/47114004-e3784600-d25a-11e8-96c9-b11b66c1c388.gif)
 
 Install:
 
