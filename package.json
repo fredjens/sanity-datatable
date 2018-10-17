@@ -1,0 +1,28 @@
+{
+  "name": "sanity-table-input",
+  "version": "1.0.0",
+  "description": "Plugin for adding table support to Sanity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sanity",
+    "table-input",
+    "sanity-plugin"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "prop-types": "^15.6",
+    "react": "^16.2",
+    "styled-components": "^3.4.2",
+    "uuid": "^3.3.2"
+  },
+  "peerDependencies": {
+    "@sanity/base": "^0.135.0",
+    "@sanity/components": "^0.135.0",
+    "@sanity/core": "^0.135.0"
+  },
+  "author": "Fredrik Jensen [hello@fredrikjensen.com]",
+  "license": "MIT"
+}
