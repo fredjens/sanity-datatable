@@ -1,5 +1,7 @@
 # Sanity Datatable
 
+🚨🚨🚨 NOT READY 🚨🚨🚨
+
 This is a plugin for the awesome [Sanity CMS](http://sanity.io)
 
 Which adds support for datatables.
