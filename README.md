@@ -11,7 +11,7 @@ Which adds support for datatables.
 Install:
 
 ```js
-npm i sanity-datatable
+sanity install datatable
 ```
 
 To use the datatable, we need this __schema:__
