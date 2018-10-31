@@ -4,8 +4,10 @@
 
 import React, { Component } from 'react';
 import { cloneDeep, range } from 'lodash';
-import PatchEvent, { set, unset, setIfMissing } from 'part:@sanity/form-builder/patch-event';
+import autoBind from 'react-autobind';
 import uuid from 'uuid';
+
+import PatchEvent, { set, unset, setIfMissing } from 'part:@sanity/form-builder/patch-event';
 
 import { Heading } from './primitives';
 import Table from './table';
@@ -18,9 +20,7 @@ import Button from 'part:@sanity/components/buttons/default'
 class Container extends Component {
   constructor(props) {
     super(props);
-    this.handleAddRow = this.handleAddRow.bind(this);
-    this.handleAddColumn = this.handleAddColumn.bind(this);
-    this.handleCellChange = this.handleCellChange.bind(this);
+    autoBind(this);
 
     const {
       value: {

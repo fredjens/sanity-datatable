@@ -1,12 +1,10 @@
 {
   "paths": {
     "source": "./src",
-    "compiled": "./dist"
+    "compiled": "./build"
   },
-
-  "parts": [
-    {
-      "path": "index.js"
-    }
-  ]
+  "parts": [{
+    "implements": "part:@sanity/base/schema-type",
+    "path": "schema.js"
+  }]
 }
