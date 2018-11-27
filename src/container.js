@@ -68,82 +68,82 @@ class Container extends Component {
     });
   }
 
+  /**
+   * Add a patch event to Sanity
+   */
+
+  handleCellChange(e, row, column) {
+    const {
+      value: input,
+    } = e.target;
+
+    const {
+      onChange,
+      value,
+      type: {
+        name,
+      } = {},
+    } = this.props;
+
     /**
-     * Add a patch event to Sanity
+     * Get all table data
      */
 
-    handleCellChange(e, row, column) {
-      const {
-        value: input,
-      } = e.target;
+    let updatedData = cloneDeep(value) || {};
 
-      const {
-        onChange,
-        value,
-        type: {
-          name,
-        } = {},
-      } = this.props;
+    /**
+     * Convert all null values to strings
+     */
 
-      /**
-       * Get all table data
-       */
+    const convertNulls = (rows = []) => range(rows.length).map(index => {
+      const row = rows[index];
 
-      let updatedData = cloneDeep(value) || {};
+      return ({
+        _type: row && row._type ? row._type : 'column',
+        _key: row && row._key ? row._key : uuid.v4(),
+        cells: row && row.cells ? range(row.cells.length)
+        .map(cellIndex => {
+          const cell = row.cells[cellIndex];
+          return cell ? cell : '';
+        }) : [],
+      })
+    });
 
-      /**
-       * Convert all null values to strings
-       */
+    updatedData.rows = convertNulls(updatedData.rows);
 
-      const convertNulls = (rows = []) => range(rows.length).map(index => {
-        const row = rows[index];
+    /**
+     * Add rows if not existing
+     */
 
-        return ({
-          _type: row && row._type ? row._type : 'column',
-          _key: row && row._key ? row._key : uuid.v4(),
-          cells: row && row.cells ? range(row.cells.length)
-          .map(cellIndex => {
-            const cell = row.cells[cellIndex];
-            return cell ? cell : '';
-          }) : [],
-        })
-      });
-
-      updatedData.rows = convertNulls(updatedData.rows);
-
-      /**
-       * Add rows if not existing
-       */
-
-      if (!updatedData.rows[row]) {
-        updatedData.rows[row] = {
-          _type: 'column',
-          _key: uuid.v4(),
-          cells: [],
-        };
-      }
-
-      /**
-       * Add new values do data
-       */
-
-      updatedData.rows[row].cells[column] = input;
-
-      /**
-       * Check for null values again
-       */
-
-      updatedData.rows = convertNulls(updatedData.rows);
-
-      /**
-       * Add Sanity patch
-       */
-
-      onChange(PatchEvent.from([
-        setIfMissing({_type: 'table'}),
-        updatedData ? set(updatedData) : unset(name),
-      ]));
+    if (!updatedData.rows[row]) {
+      updatedData.rows[row] = {
+        _type: 'column',
+        _key: uuid.v4(),
+        cells: [],
+      };
     }
+
+    /**
+     * Add new values do data
+     */
+
+    updatedData.rows[row].cells[column] = input;
+
+    /**
+     * Check for null values again
+     */
+
+    updatedData.rows = convertNulls(updatedData.rows);
+
+    /**
+     * Add Sanity patch
+     */
+
+    onChange(PatchEvent.from([
+      setIfMissing({_type: 'table'}),
+      updatedData ? set(updatedData) : unset(name),
+    ]));
+  }
 
   render() {
     const {
