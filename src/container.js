@@ -11,6 +11,7 @@ import PatchEvent, { set, unset, setIfMissing } from 'part:@sanity/form-builder/
 import { Heading } from './primitives';
 import Table from './table';
 import Button from 'part:@sanity/components/buttons/default'
+import ButtonGrid from 'part:@sanity/components/buttons/button-grid'
 
 /**
  * Container
@@ -66,6 +67,67 @@ class Container extends Component {
       columns: columns + 1,
       rows: rows === 0 ? 1 : rows,
     });
+  }
+
+  handleClear = () => {
+    const value = cloneDeep(this.props.value)
+    this.props.onChange(PatchEvent.from([
+      setIfMissing({ _type: 'table' }),
+      set({
+        ...value,
+        rows: value.rows.map(r => {
+          return {
+            ...r,
+            cells: r.cells.map(c => '')
+          }
+        })
+      })
+    ]))
+  }
+
+  handleRemoveRow = (index) => {
+    const value = cloneDeep(this.props.value)
+    this.props.onChange(PatchEvent.from([
+      setIfMissing({ _type: 'table' }),
+      set({
+        ...value,
+        rows: value.rows.filter((r, i) => i !== index)
+      })
+    ]))
+    this.setState({
+      rows: this.state.rows - 1
+    })
+  }
+
+  handleReset = (index) => {
+    const value = cloneDeep(this.props.value)
+    this.props.onChange(PatchEvent.from([
+      setIfMissing({ _type: 'table' }),
+      set({ ...value, rows: [] })
+    ]))
+    this.setState({
+      rows: 0,
+      columns: 0
+    })
+  }
+
+  handleRemoveColumn = (index) => {
+    const value = cloneDeep(this.props.value)
+    this.props.onChange(PatchEvent.from([
+      setIfMissing({ _type: 'table' }),
+      set({
+        ...value,
+        rows: value.rows.map(r => {
+          return {
+            ...r,
+            cells: r.cells.filter((c, i) => i !== index)
+          }
+        })
+      })
+    ]))
+    this.setState({
+      columns: this.state.columns - 1
+    })
   }
 
   /**
@@ -180,16 +242,21 @@ class Container extends Component {
           rows={rows}
           columns={columns}
           handleChange={this.handleCellChange}
+          onReset={this.handleReset}
+          onRemoveRow={this.handleRemoveRow}
+          onRemoveColumn={this.handleRemoveColumn}
         />
-        <Button
-          onClick={this.handleAddRow}
-          children={'Add row'}
-        />
-        <Button
-          onClick={this.handleAddColumn}
-          children={'Add column'}
-          style={{float: 'right'}}
-        />
+        <ButtonGrid>
+          <Button onClick={this.handleAddRow}>
+            Add row
+          </Button>
+          <Button onClick={this.handleAddColumn}>
+            Add column
+          </Button>
+          <Button onClick={this.handleClear} color="danger">
+            Empty cells
+          </Button>
+        </ButtonGrid>
       </div>
     );
   }
