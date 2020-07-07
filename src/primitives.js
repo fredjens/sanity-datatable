@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 /**
 * Primitives
@@ -13,16 +13,24 @@ export const Container = styled.div`
   width: 100%;
   background: none;
   margin-bottom: 1rem;
+  box-sizing: border-box;
 `;
 
 export const Row = styled.div`
+  box-sizing: border-box;
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-gap: 2px;
+  grid-auto-flow: column;
+  ${props => css`
+    grid-template-columns: repeat(${props.cols}, 1fr) min-content;
+  `}
 `;
 
 export const Cell = styled.input`
   display: block;
   width: 100%;
+  box-sizing: border-box;
   border: none;
   background: #f2f2f2;
   margin: 1px;
@@ -35,6 +43,7 @@ export const Cell = styled.input`
 `;
 
 export const Empty = styled.div`
+  box-sizing: border-box;
   padding: .35rem;
   color: #666;
   letter-spacing: 1px;
